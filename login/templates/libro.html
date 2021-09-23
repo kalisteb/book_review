@@ -32,7 +32,6 @@
         <hr>
         <h6 style="display:inline;">Rating:
           {% for i in '12345'|make_list %}
-          <!-- Si el rating es mayor o igual que i la estrella aparece llena -->
             {% if review.rating >= forloop.counter %}
               <h3 style="color:yellow; display:inline;">&#9733;</h3>
             {% else %} <!-- de lo contrario la estrella aparece vacia -->
