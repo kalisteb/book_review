@@ -25,10 +25,10 @@ SECRET_FILE = os . path . join ( BASE_DIR , 'secret.txt' )
 SECRET_KEY = open(SECRET_FILE).read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # EN AMBIENTE PRODUCTIVO SE PONE LA IP DEL SERVER
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [3.20.240.134]
 
 
 # Application definition
