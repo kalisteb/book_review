@@ -87,21 +87,23 @@ def cambiar_pass(request):
     if len(errores) > 0:
         for key, msg in errores.items():
             messages.error(request, msg)
-        return redirect('/')
+        return redirect('/recuperahtml')
     else:
         pass_nueva = request.POST['pass_nueva']
         pass_confirm = request.POST['pass_confirmacion']
 
-        mensaje = User.objects.comparar_password(pass_nueva,pass_confirm)
-        if len(mensaje) > 0: #revisar
+        mensaje = User.objects.comparar_password(pass_nueva, pass_confirm)
+        if len(mensaje) > 0:
             messages.error(request, mensaje)
-            return redirect('/')
-
-        password_encriptado = User.objects.encriptar(pass_nueva)
+            return redirect('/recuperahtml')
         
+        password_encriptado = User.objects.encriptar(pass_nueva)
+
         reg_user[0].password = password_encriptado
-        reg_user[0].save
-        msg="Contraseña cambiada exitosamente!"
-        messages.success(request, msg)
+        reg_user[0].save()
         request.session.flush()
         return redirect('/')
+
+#redirige cuando hay errores de validacion de contraseña en def cambiar_pass
+def recuperahtml(request):
+    return render(request, 'recuperar.html')
