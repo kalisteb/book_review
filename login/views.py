@@ -17,7 +17,7 @@ def registrar(request):
 
 def inicio(request):
     usuario = User.objects.filter(email=request.POST['email2'].lower())
-    errores = User.objects.validar_login(request.POST, usuario)
+    errores = User.objects.validar_login(request.POST['password'], usuario)
 
     if len(errores) > 0:
         for key, msg in errores.items():
@@ -25,6 +25,7 @@ def inicio(request):
         return redirect('/')
     else:
         request.session['user_id'] = usuario[0].id
+        request.session['user_name'] = usuario[0].nombre
         return redirect('libros/')
 
 def registro(request):
@@ -39,7 +40,6 @@ def registro(request):
     else:
         #encriptar password
         password = User.objects.encriptar(request.POST['password'])
-        decode_hash_pw = password.decode('utf-8')
         
         rol = 2
         if User.objects.all().count() == 0:
@@ -50,7 +50,7 @@ def registro(request):
             nombre=request.POST['nombre'],
             alias=request.POST['alias'],
             email=request.POST['email'],
-            password=decode_hash_pw,
+            password=password,
             rol=rol,
         )
         #request.session['user_id'] = user.id
@@ -78,3 +78,30 @@ def view_user(request, user_id):
         'reviews': arreglo_libros,
             }
     return render(request, 'user.html', context)
+
+
+def cambiar_pass(request):
+    reg_user = User.objects.filter(id=request.session['user_id'])
+    errores = User.objects.validar_login(request.POST['pass_actual'], reg_user)
+    
+    if len(errores) > 0:
+        for key, msg in errores.items():
+            messages.error(request, msg)
+        return redirect('/')
+    else:
+        pass_nueva = request.POST['pass_nueva']
+        pass_confirm = request.POST['pass_confirmacion']
+
+        mensaje = User.objects.comparar_password(pass_nueva,pass_confirm)
+        if len(mensaje) > 0: #revisar
+            messages.error(request, mensaje)
+            return redirect('/')
+
+        password_encriptado = User.objects.encriptar(pass_nueva)
+        
+        reg_user[0].password = password_encriptado
+        reg_user[0].save
+        msg="Contraseña cambiada exitosamente!"
+        messages.success(request, msg)
+        request.session.flush()
+        return redirect('/')

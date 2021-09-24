@@ -19,35 +19,34 @@ class UserManager(models.Manager):
                 r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
             if not EMAIL.match(postData['email']):
                 errores['email'] = "email invalido"
-            if len(postData['password']) < 6:
-                errores['password'] = "Password debe ser mayor a 6 caracteres"
-            if postData['password'] != postData['password2']:
-                errores['password'] = "Password no son iguales"
+            if len(postData['password']) < 8:
+                errores['password'] = "Password debe ser mayor a 8 caracteres"
+            
+            val_pass = self.comparar_password(postData['password'],postData['password2'])
+            if len(val_pass) > 0:
+                errores['password'] = val_pass
         return errores
 
     def encriptar(self, password):
         password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        return password
+        return password.decode('utf-8')
 
-    def validar_login(self, postData, usuario ):
+    def validar_login(self, password, usuario ):
         errores = {}
         if len(usuario) > 0:
-            pw_given = postData['password']
             pw_hash = usuario[0].password
 
-            if bcrypt.checkpw(pw_given.encode(), pw_hash.encode()) is False:
+            if bcrypt.checkpw(password.encode(), pw_hash.encode()) is False:
                 errores['pass_incorrecto'] = "password es incorrecto"
         else:
             errores['usuario_invalido'] = "Usuario no existe"
         return errores
-        
-    def recuperar_password(self, postData):
-        errores = {}
-        if len(User.objects.filter(email=postData['email'])) > 0:
-            pass
+
+    def comparar_password(self,password, password2):
+        if password != password2:
+            return "Password no son iguales"
         else:
-            errores['email'] = "Email no existe"
-        return errores
+            return ""
         
 
 class User(models.Model):
@@ -55,7 +54,7 @@ class User(models.Model):
     nombre = models.CharField(max_length=40)
     alias = models.CharField(max_length=40)
     email = models.CharField(max_length=40)
-    password = models.CharField(max_length=255)
+    password = models.CharField(max_length=20)
     #cumple = models.DateTimeField()
     rol = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)

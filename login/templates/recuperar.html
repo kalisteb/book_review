@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         {% endfor %} {% endif %}
-                        <form method="POST" action="{% url 'recuperar' %}" class="mx-3">
+                        <form method="POST" action="{% url 'cambiar_pass' %}" class="mx-3">
                             {% csrf_token %}
                             <fieldset class="mb-4">
                                 <label for="">Enter your current password:</label>

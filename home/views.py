@@ -57,24 +57,12 @@ def insertar(request):
                 autor = Autor.objects.get(id=registered_author)
             else:
                 autor = Autor.objects.create(nombre=request.POST['autor'].capitalize())
-        book = Libro.objects.create(titulo = request.POST['titulo'], autor = autor, rating = request.POST['rating'])
-        Review.objects.create(usuario = User.objects.get(id=request.session['user_id']), contenido = request.POST['review'], libro = book)
+        book = Libro.objects.create(titulo = request.POST['titulo'], autor = autor )
+        Review.objects.create(usuario = User.objects.get(id=request.session['user_id']), contenido = request.POST['review'], libro = book,rating = request.POST['rating'])
         return redirect('/libros')
 
 def recuperar(request):
     reg_user = User.objects.get(id=request.session['user_id'])
-
-    context = {
-        "active_user": reg_user,
-    }
-    return render(request, 'recuperar.html', context)
-
-def cambiar_pass(request):
-    reg_user = User.objects.get(id=request.session['user_id'])
-
-    pass_actual = request.POST['pass_actual']
-    pass_nueva = request.POST['pass_nueva']
-    pass_confirm = request.POST['pass_confirmacion']
 
     context = {
         "active_user": reg_user,

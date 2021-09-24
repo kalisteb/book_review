@@ -28,7 +28,7 @@ SECRET_KEY = open(SECRET_FILE).read().strip()
 DEBUG = False
 
 # EN AMBIENTE PRODUCTIVO SE PONE LA IP DEL SERVER
-ALLOWED_HOSTS = [3.20.240.134]
+ALLOWED_HOSTS = ['*']#[3.20.240.134]
 
 
 # Application definition
