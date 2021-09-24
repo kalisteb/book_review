@@ -25,7 +25,7 @@
     <h5 class="mb-5">{{libro.reviewer}}</h5>
     <div class="row d-flex mb-5">
       <!--Reviews:-->
-      <div class="col-7">
+      <div class="col-lg-7 col-md-7 col-sm-12">
         <h4 class="mb-2"><strong>Reviews:</strong></h4>
         <!--ciclo for-->
         {% for review in reviews|slice:":3" %}
@@ -45,7 +45,7 @@
         {% endfor%}
       </div>
       <!--Add a Review-->
-      <div class="col-5">
+      <div class="col-lg-5 col-md-5 col-sm-12">
         <h5 class="mb-3">Add a Review:</h5>
         <div class="border border-ligth py-2 px-2 bg-light text-dark">
           <form action="{% url 'add_review' %}" method="POST">

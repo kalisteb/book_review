@@ -71,16 +71,6 @@
                             <h4>Login</h4>
                         </div>
                         <div class="card-body">
-                            {% if messages %} {% for message in messages %}
-                            <div class="container-fluid p-0">
-                                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                                    {{message}}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                </div>
-                            </div>
-                            {% endfor %} {% endif %}
                             <form action="{% url 'inicio' %}" method="POST">
                                 {% csrf_token %}
                                 <fieldset class="mb-3">

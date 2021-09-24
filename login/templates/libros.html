@@ -15,10 +15,10 @@
         <div class="container-fluid">
             <!--Welcome /Add Book/ LogOut-->
             <div class="row d-flex mb-5">
-                <div class="col-6 d-sm-block">
+                <div class="col-lg-6 col-md-7 col-sm-4 d-sm-block">
                     <h3>Welcome, {{active_user.alias}}!</h3>
                 </div>
-                <div class="col-6 d-flex justify-content-end">
+                <div class="col-lg-6 col-md-5 col-sm-4 d-flex justify-content-end">
                     <a class="btn btn-outline-dark" href="{% url 'agregar' %}">Add Book and Review</a> &nbsp; &nbsp;
                     <a class="btn btn-outline-dark" href="{% url 'recuperar' %}">Change Password</a>&nbsp; &nbsp;
                     <a class="btn btn-outline-dark" href="{% url 'logout' %}">Logout</a>
@@ -27,7 +27,7 @@
             <!--Recent Books/ Other Books-->
             <div class="row d-flex mb-5">
                 <!--Recent Book Reviews:-->
-                <div class="col-7">
+                <div class="col-lg-7 col-sm-12">
                     <h4 class="mb-5">Recent Book Reviews:</h4>
                     <!--ciclo for-->
                     {% for lista in lista_libros|slice:":3" %}
@@ -51,7 +51,7 @@
                     {% endfor%}
                 </div>
                 <!--Other books with reviews-->
-                <div class="col-5 ">
+                <div class="col-lg-5 col-sm-9">
                     <h4 class="mb-3 ">Other Books with Reviews:</h4>
                     <div class="h-25 w-100 border border-ligth py-2 px-2 bg-light text-dark overflow-auto ">
                         <!--ciclo for-->
